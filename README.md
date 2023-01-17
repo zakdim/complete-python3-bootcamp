@@ -36,3 +36,19 @@ https://www.python-excel.org/
 ```
 $ pip install openpyxl
 ```
+
+## s10: Errors and Exceptions Handling
+
+### s10-83: Update for Pylint Users
+
+To see the same report that I do in the video, in the newest version of PyLint you need to add `-r y` (report yes) at the end of the command, so the full command should be:
+
+```
+pylint myexample.py -r y
+```
+
+### s10-84: Pylint Overview
+
+```bash
+$ pip install pylint
+```
