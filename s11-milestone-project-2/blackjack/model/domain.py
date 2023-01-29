@@ -35,19 +35,23 @@ class Card:
         return "Card(suit={}, rank={}, value={})".format(self.suit, self.rank, self.value)
 
 
-# class Deck:
-#
-#     def __init__(self):
-#         self.deck = []  # start with an empty list
-#         for suit in suits:
-#             for rank in ranks:
-#                 pass
-#
-#     def __str__(self):
-#         pass
-#
-#     def shuffle(self):
-#         random.shuffle(self.deck)
-#
-#     def deal(self):
-#         pass
+class Deck:
+
+    def __init__(self):
+        self.deck = []  # start with an empty list
+        for suit in Suit:
+            for rank in Rank:
+                self.deck.append(Card(suit, rank))
+
+    def __str__(self):
+        deck_comp = ''
+        for card in self.deck:
+            deck_comp += f'{card}\n'
+
+        return deck_comp
+
+    def shuffle(self):
+        random.shuffle(self.deck)
+
+    def deal(self):
+        return self.deck.pop()
