@@ -14,8 +14,9 @@ class Suit(Enum):
 Rank = Enum('Rank',
             ['TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'JACK', 'QUEEN', 'KING', 'ACE'])
 
-rank_values = {Rank.TWO: 2, Rank.THREE: 3, Rank.FOUR: 4, Rank.FIVE: 5, Rank.SIX: 6, Rank.SEVEN: 7, Rank.EIGHT: 8,
+card_values = {Rank.TWO: 2, Rank.THREE: 3, Rank.FOUR: 4, Rank.FIVE: 5, Rank.SIX: 6, Rank.SEVEN: 7, Rank.EIGHT: 8,
                Rank.NINE: 9, Rank.TEN: 10, Rank.JACK: 10, Rank.QUEEN: 10, Rank.KING: 10, Rank.ACE: 11}
+
 
 # suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 # ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
@@ -29,7 +30,7 @@ class Card:
     def __init__(self, suit: Suit, rank: Rank):
         self.suit = suit
         self.rank = rank
-        self.value = rank_values[rank]
+        self.value = card_values[rank]
 
     def __str__(self):
         return "Card(suit={}, rank={}, value={})".format(self.suit, self.rank, self.value)
@@ -55,3 +56,57 @@ class Deck:
 
     def deal(self):
         return self.deck.pop()
+
+
+class Hand:
+    def __init__(self):
+        self.cards = []  # start with an empty list as we did in the Deck class
+        self.value = 0  # start with zero value
+        self.aces = 0  # add an attribute to keep track of aces
+
+    def add_card(self, card: Card):
+        """
+        Card passed in from Deck.deal()
+        :param card:
+        :return:
+        """
+        self.cards.append(card)
+        self.value += card.value
+
+        # Track aces
+        if card.rank == Rank.ACE:
+            self.aces += 1
+
+    def adjust_for_ace(self):
+        # If total value > 21, and I still have an ace than change my ace to be a 1 instead of an 11
+        while self.value > 21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
+
+    def __str__(self):
+        deck_comp = f'Hand(value={self.value}, cards='
+        if len(self.cards) == 0:
+            deck_comp += '[])'
+        else:
+            deck_comp += '[\n'
+            for card in self.cards:
+                deck_comp += f'\t{card},\n'
+            deck_comp += ']'
+
+        return deck_comp
+
+
+class Chips:
+
+    def __init__(self, total=100):
+        self.total = total  # This can be set to a default value or supplied by a user input
+        self.bet = 0
+
+    def win_bet(self):
+        self.total += self.bet
+
+    def lose_bet(self):
+        self.total -= self.bet
+
+    def __str__(self):
+        return f'Chips(total={self.total}, bet={self.bet})'
