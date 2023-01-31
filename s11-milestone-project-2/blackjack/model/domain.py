@@ -89,8 +89,8 @@ class Hand:
             deck_comp += '[])'
         else:
             deck_comp += '[\n'
-            for card in self.cards:
-                deck_comp += f'\t{card},\n'
+            for i,card in enumerate(self.cards):
+                deck_comp += f'\t{card}{"," if i+1 < len(self.cards) else ""}\n'
             deck_comp += ']'
 
         return deck_comp
@@ -110,3 +110,5 @@ class Chips:
 
     def __str__(self):
         return f'Chips(total={self.total}, bet={self.bet})'
+
+
