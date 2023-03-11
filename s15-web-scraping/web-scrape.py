@@ -58,6 +58,28 @@ def s15_119():
         print(f'{toc_num}{" " if bool(toc_num) else ""}{toc_text}')
 
 
+def s15_120():
+    res = requests.get('https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)')
+    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+    # print_value('soup', soup)
+
+    images = soup.select('.thumbimage')
+    # for img in images:
+    #     print(img)
+
+    computer = images[1];
+    # print(computer)
+    # type(computer)
+    print(computer['src'])
+    image_link = requests.get(f'https:{computer["src"]}')
+    print(image_link.content)
+
+    f = open('my_computer_image.jpg','wb')
+    f.write(image_link.content)
+    f.close()
+
+
 if __name__ == '__main__':
     # s15_118()
-    s15_119()
+    # s15_119()
+    s15_120()
