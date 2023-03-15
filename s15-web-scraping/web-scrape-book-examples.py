@@ -15,17 +15,45 @@ def print_value(label, value):
 def s15_121():
     base_url = 'http://books.toscrape.com/catalogue/page-{}.html'
 
-    page_num = 12
-    print(base_url.format(page_num))
+    # page_num = 12
+    # print(base_url.format(page_num))
+    #
+    # # Look for class: product_pod
+    # res = requests.get(base_url.format(1))
+    # soup = bs4.BeautifulSoup(res.text, 'html.parser')
+    # products = soup.select('.product_pod')
+    #
+    # for i,p in enumerate(products):
+    #     print_value(f'product-{i}', p)
+    # example = products[0]
+    # print_value('product-00', example)
+    #
+    # # Method-1: quick and dirty
+    # print_value('isStarRatingTwo', 'star-rating Two' in str(example))
+    #
+    # # Method-2: select using class
+    # is_two_start_rating = bool(example.select('.star-rating.Two'))
+    # print_value('is_two_star_rating', is_two_start_rating)
+    #
+    # # Select title
+    # title = example.select('a')[1]['title']
+    # print_value('title', title)
 
-    # Look for class: product_pod
-    res = requests.get(base_url.format(1))
-    soup = bs4.BeautifulSoup(res.text, 'html.parser')
-    products = soup.select('.product_pod')
+    two_start_titles = []
+    for n in range(1, 51):
+        scrape_url = base_url.format(n)
+        res = requests.get(scrape_url)
 
-    print_value('products count', len(products))
-    for i,p in enumerate(products):
-        print_value(f'product-{i}', p)
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+        books = soup.select('.product_pod')
+
+        for book in books:
+            if len(book.select('.star-rating.Two')) != 0:
+                title = book.select('a')[1]['title']
+                two_start_titles.append(title)
+
+    for i,b in enumerate(two_start_titles):
+        print(f'[{i+1:03d}]: {b}')
 
 
 if __name__ == '__main__':
