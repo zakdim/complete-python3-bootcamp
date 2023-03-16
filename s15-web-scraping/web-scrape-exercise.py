@@ -53,7 +53,7 @@ def s15_123():
     home_url = 'http://quotes.toscrape.com'
     page_url_path = '/page/{}/'
     page_threshold = 100
-    first_page = True
+    # first_page = True
     unique_authors = set()
 
     for i in utils.int_stream():
@@ -65,13 +65,13 @@ def s15_123():
             first_page = False
             scrape_url = home_url + page_url_path.format(page)
 
-        utils.print_value('Scraping URL', scrape_url)
+        print(f'Scraping URL: {scrape_url}')
 
         res = requests.get(scrape_url)
         soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
         if 'No quotes found!' in soup.text or page >= page_threshold:
-            print(f'END OF QUOTES on page {page}')
+            print(f'NO QUOTES FOUND on page {page}')
             break
 
         if first_page:
