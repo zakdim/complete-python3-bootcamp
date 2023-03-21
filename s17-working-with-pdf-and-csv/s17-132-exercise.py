@@ -6,11 +6,9 @@ import re
 
 
 def extract_url(csv_data):
-    index = 0
     url = ''
-    for line in list(csv_data)[0:]:
+    for index, line in enumerate(list(csv_data)):
         url += line[index]
-        index += 1
 
     return url
 
@@ -23,13 +21,13 @@ def download_pdf(url):
 
 def find_phone(file_name):
     f = open(file_name, 'rb')
-    pdf_reader = PyPDF2.PdfReader(f)
-    # print(len(pdf_reader.pages))
+    pdf = PyPDF2.PdfReader(f)
+    # print(len(pdf.pages))
     phone_pattern = re.compile(r'\d{3}[ -.]\d{3}[ -.]\d{4}')
     phone = None
 
-    for num in range(len(pdf_reader.pages)):
-        page = pdf_reader.pages[num]
+    for num in range(len(pdf.pages)):
+        page = pdf.pages[num]
         # print(f'PAGE-{num}: {page.extract_text()}')
         phone = re.search(phone_pattern, page.extract_text())
         # print(f'PAGE-{num}, phone={phone}')
